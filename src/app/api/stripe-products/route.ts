@@ -1,5 +1,7 @@
 import { stripe } from '@/lib/stripe'
 import { NextResponse } from 'next/server'
+import type { Stripe } from 'stripe'
+import type { StripeProduct } from '@/types'
 
 export async function GET() {
     console.log('🔍 Fetching all ACTIVE products from Stripe')
@@ -7,20 +9,27 @@ export async function GET() {
     try {
         const products = await stripe.products.list({
             expand: ['data.default_price'],
-            active: true, // ✅ Filter for active products only
+            active: true,
         })
 
-        const productData = products.data.map((product) => {
-            const priceData = product.default_price as any
-            const priceId = typeof priceData === 'object' ? priceData.id : priceData  // ✅ Handle both cases
+        console.log(`✅ Found ${products.data.length} products`)
 
-            return {
+        const productData: StripeProduct[] = products.data.map((product) => {
+            const priceData = product.default_price as Stripe.Price
+            const priceId = priceData.id
+
+            const item: StripeProduct = {
                 id: product.id,
                 name: product.name,
-                price: priceData?.unit_amount ? priceData.unit_amount / 100 : 'N/A',
+                price: priceData.unit_amount ? priceData.unit_amount / 100 : 'N/A',
                 image: product.images[0] || '',
-                default_price_id: priceId,  // ✅ Always ensure this is a string
+                default_price_id: priceId,
+                gender: product.metadata?.gender || null,
             }
+
+            console.log(`🧢 Mapped: ${item.name} (${item.gender}) → €${item.price}`)
+
+            return item
         })
 
         return NextResponse.json(productData)

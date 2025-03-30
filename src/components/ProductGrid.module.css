@@ -1,0 +1,102 @@
+.gridSection {
+    padding: 2rem 1rem;
+    background-color: white;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Always 4 equal columns */
+    gap: 2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #111;
+    font-family: sans-serif;
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.image {
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
+.secondary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.card:hover .secondary {
+    opacity: 1;
+}
+
+.card:hover .image:not(.secondary) {
+    opacity: 0;
+}
+
+.info {
+    margin-top: 0.5rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.name {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0.25rem 0;
+    color: #111;
+}
+
+.color {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 0.25rem 0;
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+    margin: 0.25rem 0;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

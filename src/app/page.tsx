@@ -1,50 +1,48 @@
 'use client'
-import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import ProductGrid from '@/components/ProductGrid'
+import { Product } from '@/lib/types'
+import { fetchSanityProducts } from '@/lib/sanity'
+import Hero from '@/components/Hero'
+import TextSection from '@/components/TextSection'
 
 export default function HomePage() {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState<Product[]>([])
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             try {
-                const res = await fetch('/api/stripe-products')
-                const data = await res.json()
-                setProducts(data)
+                const sanityProducts = await fetchSanityProducts()
+                setProducts(sanityProducts)
             } catch (error) {
-                console.error('❌ Error fetching products:', error)
+                console.error('❌ Error fetching from Sanity:', error)
             }
         }
 
-        fetchProducts()
+        fetchData()
     }, [])
 
     return (
         <div>
-            <div className="hero">
-                <Image src="/hero.webp" alt="Marianas Apparel" layout="fill" objectFit="cover" priority />
-            </div>
+            <Hero />
 
-            <section className="text-section">
-                <h2>Empower Your Workout</h2>
-                <p>
-                    Discover stylish and comfortable activewear designed for performance. Whether you're hitting the gym
-                    or going for a run, our pieces keep you moving with confidence.
-                </p>
+            <TextSection
+                title="Empower Your Workout"
+                text="Discover stylish and comfortable activewear designed for performance. Whether you're hitting the gym or going for a run, our pieces keep you moving with confidence."
+            />
+
+            <ProductGrid products={products} title="Women’s Clothing" gender="women" />
+
+            <section className="mid-banner">
+                <Image src="/mid-banner.jpg" alt="Mid banner" layout="fill" objectFit="cover" />
             </section>
 
-            <section className="product-grid">
-                {products.map((product) => (
-                    <Link key={product.id} href={`/products/${product.id}`}>
-                        <div className="product-card">
-                            <Image src={product.image} alt={product.name} width={300} height={300} />
-                            <h3>{product.name}</h3>
-                            <p>{product.price === 'N/A' ? 'Price on request' : `€${product.price}`}</p>
-                        </div>
-                    </Link>
-                ))}
-            </section>
+            <ProductGrid products={products} title="Men’s Clothing" gender="men" />
+
+            <footer className="footer">
+                <p>© 2025, footer business here. All rights reserved.</p>
+            </footer>
         </div>
     )
 }

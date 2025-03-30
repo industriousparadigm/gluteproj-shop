@@ -8,6 +8,7 @@ export default function ProductPage() {
     const router = useRouter()
 
     const [productData, setProductData] = useState<{
+        id: number
         name: string
         description: string
         image: string

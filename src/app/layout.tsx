@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import Link from 'next/link'
 import '@/styles/global.css'
 
@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
     subsets: ['latin']
 })
 
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  weight: ['500', '600', '700'],
+})
+
+
 export const metadata: Metadata = {
-    title: 'Marianas Apparel',
+    title: 'Gluteproj',
     description: 'Your fitness fashion destination'
 }
 
@@ -25,10 +32,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable}`}>
+            <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable}`}>
                 <header className="header">
-                    <Link href="/">Marianas Apparel</Link>
-                    <Link href="/cart">🛒 Cart</Link> {/* 👈 Added Cart link */}
+                    <Link href="/">Glute Project</Link>
+                    <Link href="/cart">🛒 Cart</Link>
                 </header>
                 {children}
             </body>

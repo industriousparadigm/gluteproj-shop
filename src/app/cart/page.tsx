@@ -2,12 +2,13 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { CartItem } from '@/lib/types'
 
 export default function CartPage() {
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState<CartItem[]>([])
 
     useEffect(() => {
-        const storedCart = JSON.parse(localStorage.getItem('cart') || '[]')
+        const storedCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]')
         console.log('🛒 Loaded cart data:', storedCart)
         setCart(storedCart)
     }, [])
@@ -22,7 +23,7 @@ export default function CartPage() {
     if (!cart.length) return <div>Your cart is empty.</div>
 
     const handleCheckout = async () => {
-        console.log('🟢 Sending cart data to checkout route:', cart)
+        console.log('🟢 Sending cart to checkout:', cart)
 
         const res = await fetch('/api/checkout', {
             method: 'POST',

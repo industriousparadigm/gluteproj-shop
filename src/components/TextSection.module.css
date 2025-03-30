@@ -1,0 +1,22 @@
+.section {
+    padding: 5rem 2rem 4rem;
+    background: #fff;
+    text-align: center;
+    color: #111;
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1.25rem;
+}
+
+.section p {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #444;
+}

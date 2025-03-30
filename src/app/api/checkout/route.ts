@@ -1,4 +1,5 @@
 import { stripe } from '@/lib/stripe'
+import { StripeProduct } from '@/lib/types'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
@@ -8,7 +9,7 @@ export async function POST(req: Request) {
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: cart.map((item: any) => ({
+            line_items: cart.map((item: StripeProduct) => ({
                 price_data: {
                     currency: 'eur',
                     product_data: {

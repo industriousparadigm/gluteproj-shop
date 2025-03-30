@@ -1,5 +1,5 @@
 {
-  "name": "marianas-apparel",
+  "name": "gluteproj",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/client": "^6.28.4",
     "@stripe/stripe-js": "^6.1.0",
     "lucide-react": "^0.483.0",
     "next": "15.2.3",

@@ -1,0 +1,10 @@
+.hero {
+    position: relative;
+    height: 66vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.image {
+    object-fit: cover;
+}

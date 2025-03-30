@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import styles from '@/styles/global.css'
 
 export default function SuccessPage() {
     return (
