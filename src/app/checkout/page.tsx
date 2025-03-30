@@ -1,6 +1,7 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js'
+import { Suspense } from 'react'
 
 console.log('Stripe Publishable Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -28,9 +29,11 @@ export default function CheckoutPage() {
     }
 
     return (
-        <div>
-            <h1>Checkout</h1>
-            <button onClick={handleCheckout}>Pay Now</button>
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div>
+                <h1>Checkout</h1>
+                <button onClick={handleCheckout}>Pay Now</button>
+            </div>
+        </Suspense>
     )
 }
