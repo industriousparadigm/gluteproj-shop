@@ -4,23 +4,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './ProductGrid.module.css'
 import commonStyles from '@/styles/common.module.css'
-import { Gender, Product } from '@/lib/types'
+import { Product } from '@/lib/types'
 
 type Props = {
     title: string
     products: Product[]
-    gender: Gender
 }
 
-export default function ProductGrid({ title, products, gender }: Props) {
-    const filtered = products.filter((p) => p.gender === gender)
-
+export default function ProductGrid({ title, products }: Props) {
     return (
         <section className={styles.gridSection}>
             <div className={commonStyles.container}>
                 <h2 className={styles.title}>{title}</h2>
                 <div className={styles.grid}>
-                    {filtered.map((product) => (
+                    {products.map((product) => (
                         <Link key={product.id} href={`/products/${product.slug}`} className={styles.card}>
                             <div className={styles.imageWrapper}>
                                 <Image

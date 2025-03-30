@@ -23,6 +23,9 @@ export default function HomePage() {
         fetchData()
     }, [])
 
+    const maleProducts = products.filter((product) => !!product.gender && product.gender !== 'women')
+    const femaleProducts = products.filter((product) => !!product.gender && product.gender !== 'men')
+
     return (
         <div>
             <Hero />
@@ -32,13 +35,13 @@ export default function HomePage() {
                 text="Discover stylish and comfortable activewear designed for performance. Whether you're hitting the gym or going for a run, our pieces keep you moving with confidence."
             />
 
-            <ProductGrid products={products} title="Women’s Clothing" gender="women" />
+            {femaleProducts.length > 0 && <ProductGrid products={femaleProducts} title="Women’s Clothing" />}
 
             <section className="mid-banner">
                 <Image src="/mid-banner.jpg" alt="Mid banner" layout="fill" objectFit="cover" />
             </section>
 
-            <ProductGrid products={products} title="Men’s Clothing" gender="men" />
+            {maleProducts.length > 0 && <ProductGrid products={maleProducts} title="Men’s Clothing" />}
 
             <footer className="footer">
                 <p>© 2025, footer business here. All rights reserved.</p>
