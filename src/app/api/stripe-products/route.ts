@@ -1,7 +1,7 @@
 import { stripe } from '@/lib/stripe'
 import { NextResponse } from 'next/server'
 import type { Stripe } from 'stripe'
-import type { StripeProduct } from '@/types'
+import type { Gender, StripeProduct } from '@/lib/types'
 
 export async function GET() {
     console.log('🔍 Fetching all ACTIVE products from Stripe')
@@ -21,10 +21,11 @@ export async function GET() {
             const item: StripeProduct = {
                 id: product.id,
                 name: product.name,
-                price: priceData.unit_amount ? priceData.unit_amount / 100 : 'N/A',
+                price: (priceData.unit_amount || 0)  / 100,
                 image: product.images[0] || '',
                 default_price_id: priceId,
-                gender: product.metadata?.gender || null,
+                gender: product.metadata?.gender as Gender || 'unisex',
+                color: product.metadata?.color || 'n/a',
             }
 
             console.log(`🧢 Mapped: ${item.name} (${item.gender}) → €${item.price}`)
