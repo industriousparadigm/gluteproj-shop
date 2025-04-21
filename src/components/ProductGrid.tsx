@@ -2,51 +2,61 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from './ProductGrid.module.css'
-import commonStyles from '@/styles/common.module.css'
 import { Product } from '@/lib/types'
+import styles from './ProductGrid.module.css'
 
-type Props = {
-    title: string
-    products: Product[]
+interface Props {
+  title: string
+  products: Product[]
+  className?: string
 }
 
-export default function ProductGrid({ title, products }: Props) {
+export default function ProductGrid({ title, products, className = '' }: Props) {
+  if (!products?.length) {
     return (
-        <section className={styles.gridSection}>
-            <div className={commonStyles.container}>
-                <h2 className={styles.title}>{title}</h2>
-                <div className={styles.grid}>
-                    {products.map((product) => (
-                        <Link key={product.id} href={`/products/${product.slug}`} className={styles.card}>
-                            <div className={styles.imageWrapper}>
-                                <Image
-                                    src={product.images[0]}
-                                    alt={product.name}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 25vw"
-                                    className={styles.image}
-                                />
-
-                                {product.images[1] && (
-                                    <Image
-                                        src={product.images[1]}
-                                        alt={`${product.name} (alt view)`}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 25vw"
-                                        className={`${styles.image} ${styles.secondary}`}
-                                    />
-                                )}
-                            </div>
-                            <div className={styles.info}>
-                                <h3 className={styles.name}>{product.name}</h3>
-                                {product.color && <p className={styles.color}>{product.color}</p>}
-                                <p className={styles.price}>€{product.price}</p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        </section>
+      <div className={`${styles.container} ${className}`}>
+        <h3 className={styles.title}>{title}</h3>
+        <p className={styles.empty}>No products available</p>
+      </div>
     )
+  }
+
+  return (
+    <div className={`${styles.container} ${className}`}>
+      <h3 className={styles.title}>{title}</h3>
+      <div className={styles.grid}>
+        {products.map((product) => {
+          // Use a placeholder image if no product image is available
+          const imageUrl = product.images?.[0] || '/product-placeholder.jpg'
+          
+          return (
+            <Link
+              key={product.id}
+              href={`/products/${product.slug}`}
+              className={styles.product}
+            >
+              <div className={styles.imageWrapper}>
+                <Image
+                  src={imageUrl}
+                  alt={product.name}
+                  fill
+                  className={styles.image}
+                />
+                <div className={styles.overlay}>
+                  <span className={styles.viewDetails}>View Details</span>
+                </div>
+              </div>
+              <div className={styles.info}>
+                <h4 className={styles.name}>{product.name}</h4>
+                <div className={styles.details}>
+                  <span className={styles.color}>{product.color}</span>
+                  <span className={styles.price}>€{product.price}</span>
+                </div>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
 }

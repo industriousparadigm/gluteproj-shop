@@ -1,102 +1,152 @@
-.gridSection {
-    padding: 2rem 1rem;
-    background-color: white;
+.container {
+  width: 100%;
+  padding: 2rem 0;
 }
 
 .title {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-family: var(--font-orbitron);
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* Always 4 equal columns */
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: #111;
-    font-family: sans-serif;
+.product {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product:hover .overlay {
+  opacity: 1;
 }
 
 .imageWrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    overflow: hidden;
-    border-radius: 12px;
+  position: relative;
+  width: 100%;
+  padding-bottom: 125%; /* 4:5 aspect ratio */
+  background-color: var(--background);
+  overflow: hidden;
 }
 
 .image {
-    object-fit: cover;
-    transition: opacity 0.4s ease;
-    border-radius: 12px;
-    margin: 0 auto;
+  object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-.secondary {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
+.product:hover .image {
+  transform: scale(1.05);
 }
 
-.card:hover .secondary {
-    opacity: 1;
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.4)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.card:hover .image:not(.secondary) {
-    opacity: 0;
+.viewDetails {
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--white);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
 }
 
 .info {
-    margin-top: 0.5rem;
-    text-align: center;
-    line-height: 1.4;
+  padding: 1.25rem;
 }
 
 .name {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0.25rem 0;
-    color: #111;
+  font-family: var(--font-montserrat);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
 }
 
 .color {
-    font-size: 0.9rem;
-    color: #888;
-    margin: 0.25rem 0;
+  color: var(--text-secondary);
 }
 
 .price {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #000;
-    margin: 0.25rem 0;
+  font-weight: 600;
+  color: var(--primary);
 }
 
-@media (max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .name {
+    font-size: 0.9rem;
+  }
+
+  .details {
+    font-size: 0.8rem;
+  }
 }
 
-@media (max-width: 600px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 400px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }

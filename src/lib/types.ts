@@ -1,4 +1,4 @@
-export type Gender = 'men' | 'women' | 'unisex'
+export type Category = 'men' | 'women' | 'unisex'
 
 export type Product = {
     id: string
@@ -7,7 +7,7 @@ export type Product = {
     price: number
     images: string[]
     color: string
-    gender?: Gender
+    category?: Category
     default_price_id?: string // only for Stripe items
 }
 
@@ -17,7 +17,7 @@ export type SanityProduct = {
     slug: string
     price: number
     color: string
-    gender?: Gender
+    category?: Category
     images?: {
         asset?: {
             url?: string
@@ -32,7 +32,7 @@ export type StripeProduct = {
     image: string
     default_price_id: string
     color: string
-    gender?: Gender | null
+    category?: Category | null
 }
 
 export type CartItem = {

@@ -1,51 +1,85 @@
 'use client'
+
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import ProductGrid from '@/components/ProductGrid'
 import { Product } from '@/lib/types'
-import { fetchSanityProducts } from '@/lib/sanity'
+import { fetchProducts } from '@/lib/sanity'
 import Hero from '@/components/Hero'
-import TextSection from '@/components/TextSection'
+import ProductGrid from '@/components/ProductGrid'
+import styles from './page.module.css'
 
 export default function HomePage() {
-    const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const sanityProducts = await fetchSanityProducts()
-                setProducts(sanityProducts)
-            } catch (error) {
-                console.error('❌ Error fetching from Sanity:', error)
-            }
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        console.log('🔄 Starting to load products...')
+        setLoading(true)
+        setError(null)
+        
+        const data = await fetchProducts()
+        console.log('📦 Received products:', data)
+        
+        if (!data || data.length === 0) {
+          console.warn('⚠️ No products received from Sanity')
+          setError('No products available')
         }
+        
+        setProducts(data)
+      } catch (error) {
+        console.error('❌ Error loading products:', error)
+        setError('Failed to load products')
+      } finally {
+        setLoading(false)
+      }
+    }
 
-        fetchData()
-    }, [])
+    loadProducts()
+  }, [])
 
-    const maleProducts = products.filter((product) => !!product.gender && product.gender !== 'women')
-    const femaleProducts = products.filter((product) => !!product.gender && product.gender !== 'men')
+  const menProducts = products.filter(p => p.category === 'men')
+  const womenProducts = products.filter(p => p.category === 'women')
 
-    return (
-        <div>
-            <Hero />
-
-            <TextSection
-                title="Empower Your Workout"
-                text="Discover stylish and comfortable activewear designed for performance. Whether you're hitting the gym or going for a run, our pieces keep you moving with confidence."
-            />
-
-            {femaleProducts.length > 0 && <ProductGrid products={femaleProducts} title="Women’s Clothing" />}
-
-            <section className="mid-banner">
-                <Image src="/mid-banner.jpg" alt="Mid banner" layout="fill" objectFit="cover" />
-            </section>
-
-            {maleProducts.length > 0 && <ProductGrid products={maleProducts} title="Men’s Clothing" />}
-
-            <footer className="footer">
-                <p>© 2025, footer business here. All rights reserved.</p>
-            </footer>
+  return (
+    <main className={styles.main}>
+      <Hero />
+      
+      <section className={styles.featuredSection}>
+        <h2 className={styles.collectionTitle}>FEATURED COLLECTIONS</h2>
+        <div className={styles.collections}>
+          {loading ? (
+            <div className={styles.loading}>Loading products...</div>
+          ) : error ? (
+            <div className={styles.error}>{error}</div>
+          ) : (
+            <>
+              <ProductGrid 
+                title="MEN'S PERFORMANCE" 
+                products={menProducts}
+                className={styles.collectionGrid} 
+              />
+              <ProductGrid 
+                title="WOMEN'S PERFORMANCE" 
+                products={womenProducts}
+                className={styles.collectionGrid}
+              />
+            </>
+          )}
         </div>
-    )
+      </section>
+
+      <section className={styles.brandStory}>
+        <div className={styles.brandContent}>
+          <h2>THE BODY ACHIEVES WHAT THE MIND BELIEVES</h2>
+          <p>
+            At Glute Project, we're more than just activewear. We're a commitment to excellence,
+            pushing boundaries in both performance and style. Our premium sportswear is engineered
+            to enhance your workouts and designed to make you look and feel unstoppable.
+          </p>
+        </div>
+      </section>
+    </main>
+  )
 }

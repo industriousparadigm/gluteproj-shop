@@ -1,44 +1,39 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
-import Link from 'next/link'
+import { Inter, Syncopate } from 'next/font/google'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import '@/styles/global.css'
 
-const geistSans = Geist({
-    variable: '--font-geist-sans',
-    subsets: ['latin']
-})
-
-const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
-    subsets: ['latin']
-})
-
-const playfair = Playfair_Display({
+const inter = Inter({ 
   subsets: ['latin'],
-  variable: '--font-playfair',
-  weight: ['500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
 })
 
+const syncopate = Syncopate({
+  subsets: ['latin'],
+  variable: '--font-syncopate',
+  weight: ['400', '700'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-    title: 'Gluteproj',
-    description: 'Your fitness fashion destination'
+  title: 'GLUTE PROJECT',
+  description: 'Premium sportswear engineered for maximum gains'
 }
 
 export default function RootLayout({
-    children
-}: Readonly<{
-    children: React.ReactNode
-}>) {
-    return (
-        <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable}`}>
-                <header className="header">
-                    <Link href="/">Glute Project</Link>
-                    <Link href="/cart">🛒 Cart</Link>
-                </header>
-                {children}
-            </body>
-        </html>
-    )
+  children
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" className={`${inter.variable} ${syncopate.variable}`}>
+      <body className={inter.className}>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  )
 }
