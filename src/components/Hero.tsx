@@ -5,9 +5,9 @@ import Image from 'next/image'
 import styles from './Hero.module.css'
 
 const images = [
-  '/hero.jpg',
-  '/hero-2.jpg',
-  '/hero-3.jpg'
+  '/hero-wolv.webp',
+  '/hero-b.png',
+  '/hero-womanball.png'
 ]
 
 export default function Hero() {
