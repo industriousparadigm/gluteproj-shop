@@ -9,6 +9,7 @@ export type Product = {
     color: string
     category?: Category
     default_price_id?: string // only for Stripe items
+    description?: string
 }
 
 export type SanityProduct = {
@@ -18,6 +19,7 @@ export type SanityProduct = {
     price: number
     color: string
     category?: Category
+    description?: string
     images?: {
         asset?: {
             url?: string
@@ -33,6 +35,7 @@ export type StripeProduct = {
     default_price_id: string
     color: string
     category?: Category | null
+    description?: string
 }
 
 export type CartItem = {
@@ -41,4 +44,6 @@ export type CartItem = {
     price: number
     image: string
     default_price_id: string
+    quantity?: number
+    color?: string
 }

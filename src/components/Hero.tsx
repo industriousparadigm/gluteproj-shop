@@ -39,7 +39,6 @@ export default function Hero() {
       ))}
       
       <div className={styles.content}>
-        <h1 className={styles.title}>GLUTE PROJECT</h1>
         <div className={styles.dots}>
           {images.map((_, index) => (
             <button

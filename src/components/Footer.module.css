@@ -1,8 +1,21 @@
 .footer {
   width: 100%;
   background: black;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+}
+
+.footerText {
+  font-family: var(--font-syncopate);
+  font-size: clamp(4rem, 8vw, 10rem);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .container {
@@ -67,18 +80,6 @@
 
 .button:hover {
   background-color: #e63e00;
-}
-
-.text {
-  font-family: var(--font-syncopate);
-  font-size: clamp(3rem, 15vw, 12rem);
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  white-space: nowrap;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  transform: rotate(-2deg);
 }
 
 @media (max-width: 768px) {

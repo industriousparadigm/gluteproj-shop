@@ -4,14 +4,19 @@
 }
 
 .title {
-  font-family: var(--font-orbitron);
+  font-family: var(--font-syncopate);
   font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: center;
-  color: var(--text-primary);
+  color: var(--foreground);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.5rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .empty {
@@ -19,9 +24,10 @@
   color: var(--text-secondary);
   font-size: 1.1rem;
   padding: 2rem;
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: var(--card-bg);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px var(--card-shadow);
+  font-family: var(--font-inter);
 }
 
 .grid {
@@ -37,15 +43,16 @@
   flex-direction: column;
   position: relative;
   transition: transform 0.3s ease;
-  background: var(--white);
-  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  border-radius: var(--product-card-radius);
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px var(--card-shadow);
+  border-bottom: 3px solid var(--accent);
 }
 
 .product:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px var(--card-shadow);
 }
 
 .product:hover .overlay {
@@ -85,28 +92,31 @@
 }
 
 .viewDetails {
-  color: var(--white);
+  color: white;
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 0.75rem 1.5rem;
-  border: 2px solid var(--white);
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: var(--subtle-border-radius);
+  background: var(--accent);
+  font-family: var(--font-inter);
 }
 
 .info {
   padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .name {
-  font-family: var(--font-montserrat);
+  font-family: var(--font-inter);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: var(--foreground);
 }
 
 .details {
@@ -114,15 +124,19 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.9rem;
+  font-family: var(--font-inter);
+  margin-top: auto;
 }
 
 .color {
   color: var(--text-secondary);
+  text-transform: capitalize;
 }
 
 .price {
-  font-weight: 600;
-  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
 }
 
 @media (max-width: 768px) {

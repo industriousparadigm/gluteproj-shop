@@ -1,0 +1,262 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 2rem 4rem;
+  font-family: var(--font-inter);
+}
+
+.title {
+  font-family: var(--font-syncopate);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--foreground);
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
+}
+
+.emptyMessage {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+}
+
+.continueShoppingBtn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  margin-top: 1rem;
+  border-radius: var(--subtle-border-radius);
+}
+
+.continueShoppingBtn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.cartList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.cartItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px var(--card-shadow);
+  align-items: center;
+  border: 1px solid var(--border);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: var(--background);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.itemName {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.itemMeta {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.itemPrice {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantityButton {
+  background: var(--background);
+  border: 1px solid var(--border);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  color: var(--text-primary);
+}
+
+.quantityButton:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.quantityValue {
+  width: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.removeButton:hover {
+  color: var(--accent);
+}
+
+.cartSummary {
+  margin-top: 2rem;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.summaryRow:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.summaryLabel {
+  color: var(--text-secondary);
+}
+
+.summaryValue {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 2px solid var(--border);
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--foreground);
+}
+
+.checkoutButton {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 2rem;
+  border-radius: var(--subtle-border-radius);
+}
+
+.checkoutButton:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.continueShopping {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.continueShopping:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 100px 1rem 2rem;
+  }
+  
+  .cartItem {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .itemActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .cartSummary {
+    padding: 1rem;
+  }
+}

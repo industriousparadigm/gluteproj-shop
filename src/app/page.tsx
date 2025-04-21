@@ -39,15 +39,15 @@ export default function HomePage() {
     loadProducts()
   }, [])
 
-  const menProducts = products.filter(p => p.category === 'men')
-  const womenProducts = products.filter(p => p.category === 'women')
+  // Don't filter by category if category is null
+  // Instead, just display all products for now
+  const allProducts = products || []
 
   return (
     <main className={styles.main}>
       <Hero />
       
-      <section className={styles.featuredSection}>
-        <h2 className={styles.collectionTitle}>FEATURED COLLECTIONS</h2>
+      <section id="shop-section" className={styles.featuredSection}>
         <div className={styles.collections}>
           {loading ? (
             <div className={styles.loading}>Loading products...</div>
@@ -56,14 +56,9 @@ export default function HomePage() {
           ) : (
             <>
               <ProductGrid 
-                title="MEN'S PERFORMANCE" 
-                products={menProducts}
+                title="SHOP ALL PRODUCTS" 
+                products={allProducts}
                 className={styles.collectionGrid} 
-              />
-              <ProductGrid 
-                title="WOMEN'S PERFORMANCE" 
-                products={womenProducts}
-                className={styles.collectionGrid}
               />
             </>
           )}

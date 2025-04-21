@@ -9,6 +9,10 @@
   padding: 1rem;
 }
 
+.solid {
+  background: black;
+}
+
 .scrolled {
   background: black;
   padding: 0.75rem 1rem;
@@ -30,18 +34,18 @@
   color: white;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .menuButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
 }
 
 .nav {
   display: flex;
   gap: 2rem;
   align-items: center;
+  flex: 1;
 }
 
 .link {
@@ -53,12 +57,11 @@
   letter-spacing: 0.05em;
   position: relative;
   padding: 0.5rem;
-  border-radius: 1.5rem;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .link:hover {
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
 }
 
 .link::after {
@@ -68,10 +71,9 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--accent);
   transition: all 0.3s ease;
   transform: translateX(-50%);
-  border-radius: 1rem;
 }
 
 .link:hover::after {
@@ -85,29 +87,56 @@
   color: white;
   text-decoration: none;
   letter-spacing: 0.05em;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
   transition: all 0.3s ease;
-  background: black;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
 
-.scrolled .logo {
-  background: transparent;
+.leftNav, .rightNav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.leftNav {
+  justify-content: flex-start;
+}
+
+.rightNav {
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.themeToggle:hover {
+  color: var(--accent);
 }
 
 .cart {
   color: white;
   text-decoration: none;
   padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .cart:hover {
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
 }
 
 @media (max-width: 768px) {
@@ -139,5 +168,7 @@
 
   .logo {
     font-size: 1rem;
+    position: static;
+    transform: none;
   }
 }

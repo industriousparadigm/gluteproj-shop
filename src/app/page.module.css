@@ -1,11 +1,28 @@
+:root {
+  --accent-color: #FD3E81;
+  --text-color: #333;
+  --text-primary: #333;
+  --background: #F9F9F9;
+  --card-bg: #F9F9F9;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --foreground: #333;
+  --product-card-radius: 8px;
+  --subtle-border-radius: 4px;
+  --font-syncopate: 'Syncopate', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+}
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
   --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
-
   display: grid;
   grid-template-rows: 20px 1fr 20px;
   align-items: center;
@@ -13,7 +30,7 @@
   min-height: 100svh;
   padding: 80px;
   gap: 64px;
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-inter);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,7 +38,6 @@
     --gray-rgb: 255, 255, 255;
     --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
     --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
     --button-primary-hover: #ccc;
     --button-secondary-hover: #1a1a1a;
   }
@@ -30,13 +46,25 @@
 .main {
   min-height: 100vh;
   background: var(--background);
+  color: var(--text-primary);
+  padding-bottom: 3rem;
 }
 
 .featuredSection {
-  padding: 4rem 0;
-  max-width: var(--max-width);
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  position: relative;
+  padding: 0 2rem 4rem;
+}
+
+.collectionTitle {
+  font-family: var(--font-syncopate);
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .featuredSection::before {
@@ -53,70 +81,45 @@
   margin-top: 10%;
 }
 
-.collectionTitle {
-  font-family: var(--font-syncopate);
-  text-align: center;
-  margin-bottom: 3rem;
-  font-size: 2.5rem;
-  color: white;
-  position: relative;
-}
-
-.collectionTitle::after {
-  content: '';
-  position: absolute;
-  bottom: -1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
-  background: var(--primary);
-  border-radius: 2px;
-}
-
 .collections {
-  padding: 0 2rem;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  width: 100%;
 }
 
-@media (min-width: 1024px) {
-  .collections {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--font-inter);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  border-radius: 2rem;
+  box-shadow: 0 4px 10px var(--card-shadow);
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.collectionGrid {
+  width: 100%;
 }
 
 .brandStory {
-  padding: 8rem 2rem;
-  background: black;
-  color: white;
-  text-align: center;
+  width: 100%;
+  padding: 5rem 2rem;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  margin-top: 4rem;
   position: relative;
-  overflow: hidden;
-}
-
-.brandStory::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200%;
-  height: 100%;
-  background: radial-gradient(circle at center, var(--primary) 0%, transparent 70%);
-  opacity: 0.1;
-  border-radius: 50%;
-  aspect-ratio: 1;
-  margin-bottom: -50%;
 }
 
 .brandContent {
-  position: relative;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .brandContent h2 {
@@ -124,10 +127,9 @@
   font-size: 2.5rem;
   margin-bottom: 2rem;
   line-height: 1.2;
-  background: linear-gradient(90deg, #ff6b00, #ff8533);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
 }
 
 .brandContent p {
@@ -135,6 +137,9 @@
   line-height: 1.6;
   opacity: 0.9;
   font-family: var(--font-inter);
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--text-primary);
 }
 
 .ctas {
@@ -160,10 +165,11 @@
   font-size: 16px;
   line-height: 20px;
   font-weight: 500;
+  font-family: var(--font-inter);
 }
 
 a.primary {
-  background: var(--foreground);
+  background: var(--accent-color);
   color: var(--background);
   gap: 8px;
 }
@@ -187,21 +193,6 @@ a.secondary {
 
 .footer img {
   flex-shrink: 0;
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 4rem;
-  font-size: 1.2rem;
-  color: white;
-  font-family: var(--font-syncopate);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2rem;
-  backdrop-filter: blur(10px);
-}
-
-.error {
-  color: #ff6b6b;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -254,45 +245,27 @@ a.secondary {
 
 @media (max-width: 768px) {
   .featuredSection {
-    padding: 3rem 0;
+    padding: 3rem 1rem;
   }
-
+  
   .collectionTitle {
     font-size: 2rem;
-    margin-bottom: 2.5rem;
   }
-
-  .collections {
-    padding: 0 1rem;
-  }
-
-  .loading, .error {
-    padding: 3rem 1rem;
-    font-size: 1.1rem;
-  }
-
-  .brandStory {
-    padding: 4rem 1rem;
-  }
-
+  
   .brandContent h2 {
     font-size: 2rem;
-  }
-
-  .brandContent p {
-    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
   .collectionTitle {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
-
+  
   .brandContent h2 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
-
+  
   .brandContent p {
     font-size: 1rem;
   }
