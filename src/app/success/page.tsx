@@ -1,46 +1,72 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle, Home } from 'lucide-react'
+import { CornerDownLeft, Check } from 'lucide-react'
 import styles from './SuccessPage.module.css'
 
+interface CartItem {
+  id: string
+  name: string
+  price: number
+  image: string
+  color: string
+  quantity: number
+}
+
 export default function SuccessPage() {
-    // Generate a random order number for demonstration purposes
-    const orderNumber = `GP-${Math.floor(100000 + Math.random() * 900000)}`
-    
-    return (
-        <div className={styles.container}>
-            <div className={styles.checkmark}>
-                <CheckCircle size={50} />
-            </div>
-            
-            <h1 className={styles.title}>Order Confirmed</h1>
-            
-            <p className={styles.message}>
-                Thank you for your purchase! We've received your order and are getting it ready to ship.
-                A confirmation email has been sent to your email address.
-            </p>
-            
-            <div className={styles.orderNumber}>
-                Order #{orderNumber}
-            </div>
-            
-            <div className={styles.infoBox}>
-                <h2 className={styles.infoTitle}>What Happens Next?</h2>
-                <p className={styles.infoText}>
-                    1. You'll receive an order confirmation email with your order details.
-                </p>
-                <p className={styles.infoText}>
-                    2. Once your order ships, we'll send you tracking information.
-                </p>
-                <p className={styles.infoText}>
-                    3. You can check your order status anytime in your account.
-                </p>
-            </div>
-            
-            <Link href="/" className={styles.homeButton}>
-                <Home size={16} style={{ marginRight: '0.5rem' }} />
-                Continue Shopping
-            </Link>
+  const [orderDetails, setOrderDetails] = useState<{
+    total: string;
+    items: number;
+  } | null>(null)
+
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[]
+    if (cart.length) {
+      const itemCount = cart.reduce((acc: number, item: CartItem) => acc + (item.quantity || 1), 0)
+      const total = cart.reduce((acc: number, item: CartItem) => 
+        acc + (item.price * (item.quantity || 1)), 0).toFixed(2)
+      
+      setOrderDetails({ total: `€${total}`, items: itemCount })
+      
+      // Clear cart after successful order
+      localStorage.removeItem('cart')
+    }
+  }, [])
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.successCard}>
+        <div className={styles.iconContainer}>
+          <Check size={40} className={styles.icon} />
         </div>
-    )
+        
+        <h1 className={styles.title}>Order Confirmed!</h1>
+        
+        <p className={styles.message}>
+          Thank you for your purchase. We&apos;re excited to get your order on its way!
+        </p>
+        
+        {orderDetails && (
+          <div className={styles.orderDetails}>
+            <p>Your order of {orderDetails.items} item{orderDetails.items !== 1 ? 's' : ''} with a total of {orderDetails.total} has been confirmed.</p>
+            <p>You&apos;ll receive an email confirmation shortly with tracking details.</p>
+          </div>
+        )}
+        
+        <div className={styles.nextSteps}>
+          <h2>What&apos;s Next?</h2>
+          <ul>
+            <li>Order processing: 1-2 business days</li>
+            <li>Shipping: 3-5 business days</li>
+            <li>You&apos;ll receive tracking information by email</li>
+          </ul>
+        </div>
+        
+        <Link href="/" className={styles.returnButton}>
+          <CornerDownLeft size={18} style={{ marginRight: '0.5rem' }} />
+          Continue Shopping
+        </Link>
+      </div>
+    </div>
+  )
 }

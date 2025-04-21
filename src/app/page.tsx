@@ -43,6 +43,17 @@ export default function HomePage() {
   // Instead, just display all products for now
   const allProducts = products || []
 
+  const BrandStory = () => (
+    <section className={styles.brandStory}>
+      <div className={styles.brandContent}>
+        <h2>Engineered for Your Journey</h2>
+        <p>
+          Every piece in our collection is designed to enhance your performance and confidence. We believe that when you look good, you feel good, and when you feel good, you&apos;re unstoppable. That&apos;s the GLUTE PROJECT philosophy.
+        </p>
+      </div>
+    </section>
+  )
+
   return (
     <main className={styles.main}>
       <Hero />
@@ -65,16 +76,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.brandStory}>
-        <div className={styles.brandContent}>
-          <h2>THE BODY ACHIEVES WHAT THE MIND BELIEVES</h2>
-          <p>
-            At Glute Project, we're more than just activewear. We're a commitment to excellence,
-            pushing boundaries in both performance and style. Our premium sportswear is engineered
-            to enhance your workouts and designed to make you look and feel unstoppable.
-          </p>
-        </div>
-      </section>
+      <BrandStory />
+
     </main>
   )
 }

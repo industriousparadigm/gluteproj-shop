@@ -22,7 +22,7 @@ export default function AboutPage() {
             Our journey began with a simple mission: create apparel that celebrates strength while delivering uncompromising performance. We understand that when you feel powerful, you perform powerfully. Every piece we design represents this philosophy.
           </p>
           <p className={styles.paragraph}>
-            We've assembled a team of elite athletes, cutting-edge designers, and textile engineers who share our vision. Together, we craft products that seamlessly integrate into your fitness journey, whether you're setting personal records or embracing a new challenge.
+            We&apos;ve assembled a team of elite athletes, cutting-edge designers, and textile engineers who share our vision. Together, we craft products that seamlessly integrate into your fitness journey, whether you&apos;re setting personal records or embracing a new challenge.
           </p>
         </div>
         
@@ -64,7 +64,7 @@ export default function AboutPage() {
           <div className={styles.valueCard}>
             <h3 className={styles.valueTitle}>COMMUNITY</h3>
             <p className={styles.valueDescription}>
-              Glute Project is more than apparel—it's a movement. We celebrate every individual who strives for excellence and embraces the journey of self-improvement.
+              Glute Project is more than apparel—it&apos;s a movement. We celebrate every individual who strives for excellence and embraces the journey of self-improvement.
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function AboutPage() {
       
       <section className={styles.quoteSection}>
         <blockquote className={styles.quote}>
-          "The body achieves what the mind believes. Our mission is to create apparel worthy of that belief."
+          &quot;The body achieves what the mind believes. Our mission is to create apparel worthy of that belief.&quot;
           <cite className={styles.quoteAuthor}>— Founder, Glute Project</cite>
         </blockquote>
       </section>
