@@ -20,6 +20,7 @@ export type Product = {
     description: string
     images: string[]
     variants: Variant[]
+    parentSlug?: string // For variant products, stores the parent product's slug
 }
 
 export type SanityImage = {

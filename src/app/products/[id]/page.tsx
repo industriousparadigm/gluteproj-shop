@@ -1,12 +1,13 @@
 'use client'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
 import styles from './ProductDetail.module.css'
 import { Product, Variant } from '@/lib/types'
-import { fetchProductBySlug } from '@/lib/sanity'
+import { fetchProductBySlug, fetchProducts } from '@/lib/sanity'
+import SimpleProductGrid from '@/components/SimpleProductGrid'
 import CollapsibleSections from './CollapsibleSections'
 
 interface CartItem {
@@ -20,10 +21,14 @@ interface CartItem {
 
 export default function ProductPage() {
   const params = useParams() as { id?: string }
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const colorParam = searchParams.get('color')
   const [selectedImage, setSelectedImage] = useState(0)
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null)
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
 
   console.log('Product:', product)
 
@@ -34,11 +39,37 @@ export default function ProductPage() {
         if (params.id) {
           const productData = await fetchProductBySlug(params.id)
           console.log('📦 Fetched product details:', productData)
-          setProduct(productData)
           
-          // Reset selected variant and image when product changes
-          setSelectedVariant(null)
-          setSelectedImage(0)
+          if (productData) {
+            setProduct(productData)
+            
+            // Fetch and set related products
+            const allProducts = await fetchProducts()
+            // Filter by same gender, exclude current product and its variants
+            const baseId = productData.id.split('__')[0]
+            const filtered = allProducts.filter(
+              p => p.gender === productData.gender && p.id.split('__')[0] !== baseId
+            )
+            // Shuffle and take up to 4
+            const shuffled = filtered.sort(() => 0.5 - Math.random())
+            setRelatedProducts(shuffled.slice(0, 4))
+            
+            // Check for color parameter and select variant if needed
+            if (colorParam && productData.variants?.length) {
+              const matchingVariant = productData.variants.find(
+                v => v.color.toLowerCase() === colorParam.toLowerCase()
+              )
+              if (matchingVariant) {
+                setSelectedVariant(matchingVariant)
+              } else {
+                setSelectedVariant(null)
+              }
+            } else {
+              setSelectedVariant(null)
+            }
+            
+            setSelectedImage(0)
+          }
         }
       } catch (error) {
         console.error('❌ Error fetching product data:', error)
@@ -46,19 +77,46 @@ export default function ProductPage() {
         setLoading(false)
       }
     }
+    fetchProductDetails()
+  }, [params.id]) // Only re-fetch when the product ID changes, not the color
 
-    if (params.id) fetchProductDetails()
-  }, [params.id])
-
-  // Get current display images based on selected variant or main product
-  const currentImages = selectedVariant?.images?.length ? 
-    selectedVariant.images : 
-    product?.images || []
+  // Separate effect just to handle URL color param changes without re-fetching data
+  useEffect(() => {
+    if (product && colorParam && product.variants?.length) {
+      const matchingVariant = product.variants.find(
+        v => v.color.toLowerCase() === colorParam.toLowerCase()
+      )
+      
+      if (matchingVariant) {
+        // Just update the selected variant without re-fetching
+        setSelectedVariant(matchingVariant)
+        setSelectedImage(0)
+      }
+    } else if (product && !colorParam) {
+      // Reset to primary variant when color param is removed
+      setSelectedVariant(null)
+      setSelectedImage(0)
+    }
+  }, [colorParam, product]);
 
   const handleVariantChange = (variant: Variant) => {
     console.log('Selected variant:', variant)
     setSelectedVariant(variant)
     setSelectedImage(0) // Reset to first image when changing variant
+    
+    // Update URL with color parameter when variant changes - use replace with shallow option
+    const newUrl = `/products/${params.id}?color=${variant.color.toLowerCase()}`
+    router.replace(newUrl, { scroll: false })
+  }
+
+  // Handle selection of the primary/default color variant
+  const handlePrimaryVariantSelect = () => {
+    setSelectedVariant(null)
+    setSelectedImage(0)
+    
+    // Update URL to remove color parameter when selecting the primary variant - use replace with shallow option
+    const newUrl = `/products/${params.id}`
+    router.replace(newUrl, { scroll: false })
   }
 
   const handleAddToCart = () => {
@@ -131,6 +189,11 @@ export default function ProductPage() {
     return colorMap[colorName.toLowerCase()] || '#ccc'
   }
 
+  // Get current display images based on selected variant or main product
+  const currentImages = selectedVariant?.images?.length ? 
+    selectedVariant.images : 
+    product?.images || []
+
   return (
     <div className={styles.container}>
       <div className={styles.breadcrumbs}>
@@ -176,24 +239,41 @@ export default function ProductPage() {
         </div>
 
         <div className={styles.details}>
-          {/* Streamlined title/price with divider */}
+          {/* Title/price with divider */}
           <div className={styles.headerColumn}>
             <h1 className={styles.title}>{product.name}</h1>
-            <span className={styles.price}>€{product.price.toFixed(2)}</span>
+            <span className={styles.price} style={{ color: 'var(--text-primary, #222)' }}>€{product.price.toFixed(2)}</span>
           </div>
           <div className={styles.divider} />
 
+          {/* Sizes from CMS as small buttons */}
+          {product.sizes && product.sizes.length > 0 && (
+            <div className={styles.sizesSection}>
+              <div className={styles.sizesLabel}>Available sizes</div>
+              <div className={styles.sizesList}>
+                {product.sizes.map(size => (
+                  <button key={size} className={styles.sizeButton} type="button">{size}</button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Description below sizes, above add to cart */}
+          {product.description && (
+            <p className={styles.description}>
+              {product.description}
+            </p>
+          )}
+
           {/* Always show color variants selector, even if only one color */}
           <div className={styles.colorVariants}>
-            <div className={styles.variantsLabel}>
-              Options
-            </div>
+            <div className={styles.variantsLabel}>Options</div>
             <div className={styles.variantSwatches}>
               {/* Default color swatch (for single-color products or default variant) */}
               <button 
                 className={`${styles.variantSwatch} ${!selectedVariant ? styles.variantSwatchActive : ''}`}
                 style={{ backgroundColor: getColorDisplay(product.color) }}
-                onClick={() => setSelectedVariant(null)}
+                onClick={handlePrimaryVariantSelect}
                 aria-label={`Select ${product.color} color`}
                 title={product.color}
               />
@@ -211,76 +291,28 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Size selector */}
-          <div className={styles.sizes}>
-            <div className={styles.sizesLabel}>Size</div>
-            <div className={styles.sizeOptions}>
-              {['XS', 'S', 'M', 'L', 'XL'].map(size => (
-                <button
-                  key={size}
-                  className={styles.sizeButton}
-                  // TODO: Add selection logic
-                  type="button"
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <p className={styles.description}>
-            {product.description ||
-              'This premium quality product is designed for maximum performance and comfort. Made with high-quality, breathable materials that move with your body, it\'s perfect for intense workouts or casual wear. The sleek design offers both style and functionality, making it an essential addition to your athletic wardrobe.'}
-          </p>
-
+          {/* Add to cart and wishlist styled buttons */}
           <div className={styles.buttons}>
-            <button className={styles.addToCart} onClick={handleAddToCart}>
-              Add to Cart
+            <button className={styles.addToCart} onClick={handleAddToCart} type="button">
+              ADD TO CART
             </button>
-            <button className={styles.wishlist} aria-label="Add to wishlist">
+            <button className={styles.wishlist} type="button" aria-label="Add to wishlist">
               <Heart size={20} />
             </button>
           </div>
 
-          <CollapsibleSections />
+          {/* Collapsible sections below the button */}
+          <CollapsibleSections features={product.features} materialAndCare={product.materialAndCare} />
         </div>
       </div>
 
-      {/* REMOVE PRODUCT FEATURES SECTION */}
-      {/* <div className={styles.productFeatures}>
-        <h2 className={styles.featureTitle}>Product Features</h2>
-        <ul className={styles.featureList}>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            High-performance, breathable fabric
-          </li>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            Moisture-wicking technology
-          </li>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            Four-way stretch for maximum mobility
-          </li>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            Flatlock seams to prevent chafing
-          </li>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            UV protection
-          </li>
-          <li className={styles.featureItem}>
-            <CheckCircle size={16} className={styles.featureIcon} />
-            Machine washable
-          </li>
-        </ul>
-      </div> */}
-
-      <div className={styles.relatedProducts}>
-        <h2 className={styles.relatedTitle}>You May Also Like</h2>
-        {/* Related products would go here */}
-      </div>
+      {/* You may also like section - limit to 3 */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <div className={styles.relatedSection}>
+          <h3 className={styles.relatedTitle}>You may also like</h3>
+          <SimpleProductGrid products={relatedProducts.slice(0, 3)} />
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,49 @@
+.ctaButton {
+  background: transparent;
+  color: #fff;
+  padding: 0.56em 1.7em;
+  border-radius: 128px;
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.13em;
+  border: 2.5px solid #fff;
+  outline: none;
+  text-transform: uppercase;
+  box-shadow: none;
+  transition: border-color 0.18s, color 0.18s, background 0.18s, transform 0.18s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1.1;
+  height: 2.7em;
+}
+
+.ctaButton:hover, .ctaButton:focus {
+  background: #fff;
+  color: var(--accent, #ff6b00);
+  border-color: var(--accent, #ff6b00);
+  text-decoration: none;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px rgba(255,107,0,0.13);
+}
+
+@media (max-width: 900px) {
+  .ctaButton {
+    font-size: 0.97rem;
+    padding: 0.44em 1.1em;
+    border-width: 2px;
+    height: 2.2em;
+  }
+}
+
+@media (max-width: 600px) {
+  .ctaButton {
+    font-size: 0.93rem;
+    padding: 0.36em 0.8em;
+    border-width: 1.5px;
+    height: 2em;
+  }
+}

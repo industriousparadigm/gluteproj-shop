@@ -66,9 +66,6 @@ export default function HomePage() {
     <section className={styles.brandStory}>
       <div className={styles.brandContent}>
         <h2>The body achieves what the mind believes</h2>
-        <p>
-          At Glute Project, we believe that greatness starts in the mind. Every rep, every stride, every challenge you conquer begins with a single thought: belief in yourself. Our mission is to empower you to push past your limits, embrace the journey, and celebrate the strength that comes from within. Whether you&apos;re chasing a new PR or simply striving to feel your best, remember—the body will always follow where the mind leads. Welcome to a community where ambition meets action, and every day is an opportunity to become your strongest self.
-        </p>
       </div>
     </section>
   )
@@ -100,7 +97,33 @@ export default function HomePage() {
 
       <BrandStory />
 
-      <FullBleedImage src="/hero-womanball.png" alt="Woman with medicine ball" priority />
+      {/* Studio Video Section */}
+      <section className={styles.studioVideoSection}>
+        <div className={styles.studioVideoContainer}>
+          <video
+            className={styles.studioVideo}
+            src="/glute-studio.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/studio-poster.jpg"
+          />
+        </div>
+        <div className={styles.studioOverlayFixed}>
+          <a
+            href="https://instagram.com/glute_project"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.studioLink}
+            tabIndex={0}
+            style={{ color: 'var(--accent, #ff6b00)', fontSize: 'clamp(1.25rem, 4vw, 2.7rem)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', textShadow: '0 6px 36px rgba(0,0,0,0.22)' }}
+          >
+            Visit our studio
+          </a>
+        </div>
+      </section>
 
       <NewsletterSignup />
     </main>
