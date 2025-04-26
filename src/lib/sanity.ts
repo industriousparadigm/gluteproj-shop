@@ -11,21 +11,22 @@ export const client = createClient({
 export async function fetchProducts(): Promise<Product[]> {
   console.log('🔍 Fetching Sanity products...')
 
-  const query = `*[_type == "product"]{
+  const query = /* groq */`
+  *[_type == "product"]{
     _id,
     name,
     "slug": slug.current,
+    gender,
+    sizes,
     price,
     color,
     category,
     description,
-    "images": images[]{
-      asset->{
-        url,
-        metadata {
-          dimensions
-        }
-      }
+    "images": images[]{ asset->{ url, metadata{ dimensions } } },
+    "variants": variants[]{
+      color,
+      "slug": slug.current,
+      "images": images[]{ asset->{ url, metadata{ dimensions } } }
     }
   }`
 
@@ -38,19 +39,25 @@ export async function fetchProducts(): Promise<Product[]> {
       return []
     }
 
-    const products: Product[] = rawProducts.map((item) => ({
-      id: item._id,
-      name: item.name,
-      slug: item.slug,
-      price: item.price,
-      color: item.color,
-      category: item.category,
-      description: item.description,
-      images: (item.images || [])
-        .map((img) => img.asset?.url)
-        .filter((url): url is string => Boolean(url)),
-    }))
-
+    const products: Product[] = rawProducts
+      .map(p => ({
+        id: p._id,
+        name: p.name,
+        slug: p.slug as string,
+        gender: p.gender,
+        sizes: p.sizes ?? [],
+        price: p.price,
+        color: p.color,
+        category: p.category,
+        description: p.description,
+        images:   (p.images   ?? []).map(i => i.asset?.url),
+        variants: (p.variants ?? []).map(v => ({
+          color:  v.color,
+          slug:   v.slug,
+          images: (v.images ?? []).map(i => i.asset?.url)
+        }))
+      }))
+    
     console.log('🧼 Normalized Sanity products:', products)
     return products
   } catch (err) {
@@ -62,21 +69,22 @@ export async function fetchProducts(): Promise<Product[]> {
 export async function fetchProductBySlug(slug: string): Promise<Product | null> {
   console.log(`🔍 Fetching Sanity product by slug: ${slug}`)
 
-  const query = `*[_type == "product" && slug.current == $slug][0]{
+  const query = /* groq */`
+  *[_type == "product" && slug.current == $slug][0]{
     _id,
     name,
     "slug": slug.current,
+    gender,
+    sizes,
     price,
     color,
     category,
     description,
-    "images": images[]{
-      asset->{
-        url,
-        metadata {
-          dimensions
-        }
-      }
+    "images": images[]{ asset->{ url, metadata{ dimensions } } },
+    "variants": variants[]{
+      color,
+      "slug": slug.current,
+      "images": images[]{ asset->{ url, metadata{ dimensions } } }
     }
   }`
 
@@ -93,6 +101,8 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
       id: product._id,
       name: product.name,
       slug: product.slug,
+      gender: product.gender,
+      sizes: product.sizes ?? [],
       price: product.price,
       color: product.color,
       category: product.category,
@@ -100,6 +110,11 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
       images: (product.images || [])
         .map((img) => img.asset?.url)
         .filter((url): url is string => Boolean(url)),
+      variants: (product.variants || []).map(v => ({
+        color: v.color,
+        slug: v.slug,
+        images: (v.images || []).map(i => i.asset?.url)
+      }))
     }
   } catch (err) {
     console.error('❌ Failed to fetch product by slug from Sanity:', err)

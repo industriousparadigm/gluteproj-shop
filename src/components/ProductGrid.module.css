@@ -5,18 +5,34 @@
 
 .title {
   font-family: var(--font-syncopate);
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
+  letter-spacing: 0.06em;
   color: var(--foreground);
-  border-bottom: 3px solid var(--accent);
-  padding-bottom: 0.5rem;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
+  padding: 0;
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  text-align: left;
+}
+
+.shopLabel {
+  font-family: var(--font-syncopate);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.2em 0;
+}
+
+.verticalHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
 .empty {
@@ -47,7 +63,7 @@
   border-radius: var(--product-card-radius);
   overflow: hidden;
   box-shadow: 0 2px 10px var(--card-shadow);
-  border-bottom: 3px solid var(--accent);
+  border-bottom: none;
 }
 
 .product:hover {
@@ -79,11 +95,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.4)
-  );
+  background: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,16 +104,21 @@
 }
 
 .viewDetails {
-  color: white;
+  color: #fff;
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: var(--subtle-border-radius);
-  background: var(--accent);
+  background: var(--accent, #ff6b00);
   font-family: var(--font-inter);
+  transition: background 0.2s, color 0.2s;
+}
+
+.viewDetails:hover {
+  background: #e63e00;
+  color: #fff;
 }
 
 .info {
@@ -136,7 +153,59 @@
 .price {
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--accent);
+  color: var(--foreground);
+}
+
+.genderToggle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.16rem;
+  background: #181818;
+  border-radius: 1.3rem;
+  padding: 2.6px 4px;
+  border: 1px solid #292929;
+  width: fit-content;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.genderButton {
+  font-family: var(--font-inter);
+  font-size: 0.754rem;
+  font-weight: 700;
+  padding: 0.286rem 0.91rem;
+  background: transparent;
+  color: #eee;
+  border: none;
+  border-radius: 1.3rem;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  outline: none;
+  letter-spacing: 0.01em;
+  box-shadow: none;
+}
+
+.genderButtonActive {
+  background: #fff;
+  color: #181818;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.genderButton:hover:not(.genderButtonActive) {
+  background: rgba(255,255,255,0.11);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .genderToggle {
+    font-size: 0.65rem;
+    padding: 1.3px 2.6px;
+  }
+  .genderButton {
+    padding: 0.234rem 0.65rem;
+    font-size: 0.715rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -146,7 +215,7 @@
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-bottom: 1.5rem;
   }
 

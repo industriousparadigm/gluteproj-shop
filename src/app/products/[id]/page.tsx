@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Heart, CheckCircle } from 'lucide-react'
 import styles from './ProductDetail.module.css'
-import { Product } from '@/lib/types'
+import { Product, Variant } from '@/lib/types'
 import { fetchProductBySlug } from '@/lib/sanity'
 
 interface CartItem {
@@ -22,6 +22,9 @@ export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null)
+
+  console.log('Product:', product)
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -31,6 +34,10 @@ export default function ProductPage() {
           const productData = await fetchProductBySlug(params.id)
           console.log('📦 Fetched product details:', productData)
           setProduct(productData)
+          
+          // Reset selected variant and image when product changes
+          setSelectedVariant(null)
+          setSelectedImage(0)
         }
       } catch (error) {
         console.error('❌ Error fetching product data:', error)
@@ -41,6 +48,17 @@ export default function ProductPage() {
 
     if (params.id) fetchProductDetails()
   }, [params.id])
+
+  // Get current display images based on selected variant or main product
+  const currentImages = selectedVariant?.images?.length ? 
+    selectedVariant.images : 
+    product?.images || []
+
+  const handleVariantChange = (variant: Variant) => {
+    console.log('Selected variant:', variant)
+    setSelectedVariant(variant)
+    setSelectedImage(0) // Reset to first image when changing variant
+  }
 
   const handleAddToCart = () => {
     if (!product) {
@@ -59,8 +77,8 @@ export default function ProductPage() {
           id: product.id,
           name: product.name,
           price: product.price,
-          image: product.images?.[0] || '',
-          color: product.color,
+          image: currentImages?.[0] || '',
+          color: selectedVariant?.color || product.color,
           quantity: 1,
         })
       }
@@ -128,16 +146,16 @@ export default function ProductPage() {
         <div className={styles.imageGallery}>
           <div className={styles.mainImage}>
             <Image
-              src={product.images?.[selectedImage] || '/product-placeholder.jpg'}
+              src={currentImages?.[selectedImage] || '/product-placeholder.jpg'}
               alt={product.name}
               fill
               className={styles.mainImageInner}
             />
           </div>
 
-          {product.images && product.images.length > 1 && (
+          {currentImages && currentImages.length > 1 && (
             <div className={styles.thumbnails}>
-              {product.images.map((image, index) => (
+              {currentImages.map((image, index) => (
                 <div
                   key={index}
                   className={`${styles.thumbnail} ${
@@ -160,16 +178,48 @@ export default function ProductPage() {
           <h1 className={styles.title}>{product.name}</h1>
           <div className={styles.price}>€{product.price.toFixed(2)}</div>
 
-          {product.color && (
-            <div className={styles.color}>
-              Color:{' '}
-              <span
-                className={styles.colorSwatch}
-                style={{ backgroundColor: getColorDisplay(product.color) }}
-              ></span>
-              <span className={styles.colorName}>{product.color}</span>
+          {/* Color variants selector */}
+          {product.variants && product.variants.length > 0 && (
+            <div className={styles.colorVariants}>
+              <div className={styles.variantsLabel}>
+                Available Colors:
+              </div>
+              <div className={styles.variantSwatches}>
+                {/* Default color swatch */}
+                <button 
+                  className={`${styles.variantSwatch} ${!selectedVariant ? styles.variantSwatchActive : ''}`}
+                  style={{ backgroundColor: getColorDisplay(product.color) }}
+                  onClick={() => setSelectedVariant(null)}
+                  aria-label={`Select ${product.color} color`}
+                  title={product.color}
+                />
+                
+                {/* Variant color swatches */}
+                {product.variants.map((variant) => (
+                  <button
+                    key={variant.slug}
+                    className={`${styles.variantSwatch} ${selectedVariant?.color === variant.color ? styles.variantSwatchActive : ''}`}
+                    style={{ backgroundColor: getColorDisplay(variant.color) }}
+                    onClick={() => handleVariantChange(variant)}
+                    aria-label={`Select ${variant.color} color`}
+                    title={variant.color}
+                  />
+                ))}
+              </div>
             </div>
           )}
+
+          {/* Current selected color display */}
+          <div className={styles.color}>
+            Color:{' '}
+            <span
+              className={styles.colorSwatch}
+              style={{ 
+                backgroundColor: getColorDisplay(selectedVariant?.color || product.color || '') 
+              }}
+            ></span>
+            <span className={styles.colorName}>{selectedVariant?.color || product.color}</span>
+          </div>
 
           <p className={styles.description}>
             {product.description ||

@@ -18,7 +18,7 @@ const syncopate = Syncopate({
 })
 
 export const metadata: Metadata = {
-  title: 'GLUTE PROJECT',
+  title: 'GLUTE PROJECT APPAREL',
   description: 'Premium sportswear engineered for maximum gains'
 }
 

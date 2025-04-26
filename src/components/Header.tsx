@@ -81,6 +81,7 @@ export default function Header() {
 
         <Link href="/" className={styles.logo}>
           GLUTE PROJECT
+          <span className={styles.logoApparel}>APPAREL</span>
         </Link>
 
         <div className={styles.rightNav}>

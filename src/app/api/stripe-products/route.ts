@@ -1,7 +1,7 @@
 import { stripe } from '@/lib/stripe'
 import { NextResponse } from 'next/server'
 import type { Stripe } from 'stripe'
-import type { Category, StripeProduct } from '@/lib/types'
+import type { StripeProduct } from '@/lib/types'
 
 export async function GET() {
     console.log('🔍 Fetching all ACTIVE products from Stripe')
@@ -24,7 +24,7 @@ export async function GET() {
                 price: (priceData.unit_amount || 0)  / 100,
                 image: product.images[0] || '',
                 default_price_id: priceId,
-                category: product.metadata?.category as Category || 'unisex',
+                category: product.metadata?.category as string || 'unisex',
                 color: product.metadata?.color || 'n/a',
                 description: product.description || '',
             }

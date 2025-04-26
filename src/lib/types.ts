@@ -1,30 +1,47 @@
-export type Category = 'men' | 'women' | 'unisex'
+export type Variant = {
+    color: string
+    images: string[]
+    slug: string
+}
 
 export type Product = {
     id: string
     name: string
     slug: string
+    gender: 'women' | 'men' | 'unisex'
+    sizes: string[]
     price: number
+    color: string // primary/default colour
+    category: string | null
+    description: string
     images: string[]
+    variants: Variant[]
+}
+
+export type SanityImage = {
+    asset: { url: string }
+}
+
+export type SanityVariant = {
     color: string
-    category?: Category
-    default_price_id?: string // only for Stripe items
-    description?: string
+    price: number
+    slug: string
+    images: SanityImage[]
 }
 
 export type SanityProduct = {
     _id: string
     name: string
-    slug: string
-    price: number
-    color: string
-    category?: Category
-    description?: string
-    images?: {
-        asset?: {
-            url?: string
-        }
-    }[]
+    slug: string // slug.current is projected into slug in GROQ (should this be optional?)
+    description: string
+    gender: 'women' | 'men' | 'unisex'
+    sizes: Array<'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'> | null
+    price: number         // base price
+    color: string         // primary / default colour
+    category: string | null
+    isFeatured: boolean
+    images: SanityImage[]
+    variants?: SanityVariant[]
 }
 
 export type StripeProduct = {
@@ -34,7 +51,7 @@ export type StripeProduct = {
     image: string
     default_price_id: string
     color: string
-    category?: Category | null
+    category?: string
     description?: string
 }
 

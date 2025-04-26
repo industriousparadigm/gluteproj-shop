@@ -5,12 +5,15 @@ import { Product } from '@/lib/types'
 import { fetchProducts } from '@/lib/sanity'
 import Hero from '@/components/Hero'
 import ProductGrid from '@/components/ProductGrid'
+import NewsletterSignup from '@/components/NewsletterSignup'
+import FullBleedImage from '@/components/FullBleedImage'
 import styles from './page.module.css'
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedGender, setSelectedGender] = useState<'women' | 'men'>('women')
 
   useEffect(() => {
     async function loadProducts() {
@@ -39,16 +42,22 @@ export default function HomePage() {
     loadProducts()
   }, [])
 
-  // Don't filter by category if category is null
-  // Instead, just display all products for now
-  const allProducts = products || []
+  // Filter products by selected gender
+  // Include 'unisex' products in both gender categories
+  const filteredProducts = products.filter(
+    product => product.gender === selectedGender || product.gender === 'unisex'
+  )
+
+  const handleGenderToggle = (gender: 'women' | 'men') => {
+    setSelectedGender(gender)
+  }
 
   const BrandStory = () => (
     <section className={styles.brandStory}>
       <div className={styles.brandContent}>
-        <h2>Engineered for Your Journey</h2>
+        <h2>Toe body achieves what the mind believes</h2>
         <p>
-          Every piece in our collection is designed to enhance your performance and confidence. We believe that when you look good, you feel good, and when you feel good, you&apos;re unstoppable. That&apos;s the GLUTE PROJECT philosophy.
+          At Glute Project, we believe that greatness starts in the mind. Every rep, every stride, every challenge you conquer begins with a single thought: belief in yourself. Our mission is to empower you to push past your limits, embrace the journey, and celebrate the strength that comes from within. Whether you&apos;re chasing a new PR or simply striving to feel your best, remember—the body will always follow where the mind leads. Welcome to a community where ambition meets action, and every day is an opportunity to become your strongest self.
         </p>
       </div>
     </section>
@@ -67,17 +76,23 @@ export default function HomePage() {
           ) : (
             <>
               <ProductGrid 
-                title="SHOP ALL PRODUCTS" 
-                products={allProducts}
-                className={styles.collectionGrid} 
+                products={filteredProducts}
+                className={styles.collectionGrid}
+                selectedGender={selectedGender}
+                onGenderToggle={handleGenderToggle}
               />
             </>
           )}
         </div>
       </section>
 
+      <FullBleedImage src="/hero-b.png" alt="Athletic wear" priority />
+
       <BrandStory />
 
+      <FullBleedImage src="/hero-womanball.png" alt="Woman with medicine ball" priority />
+
+      <NewsletterSignup />
     </main>
   )
 }
