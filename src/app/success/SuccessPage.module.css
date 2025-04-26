@@ -1,99 +1,133 @@
 .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 140px 2rem 4rem;
-  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0;
   font-family: var(--font-inter);
+}
+
+.successCard {
+  background: #fff;
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.09);
+  padding: 3.5rem 2.5rem 2.5rem 2.5rem;
+  margin: 3rem 0 2rem 0;
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #181818;
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .successCard {
+    background: #181818;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+  .title, .nextSteps h2 {
+    color: #fff;
+  }
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent, #ff6b00);
+  color: #fff;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.6rem;
+  box-shadow: 0 2px 12px rgba(255,107,0,0.10);
+}
+
+.icon {
+  color: #fff;
 }
 
 .title {
   font-family: var(--font-syncopate);
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1.5rem;
-}
-
-.checkmark {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ff6b00;
-  color: white;
-  margin: 0 auto 2rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.2rem;
+  color: #181818;
 }
 
 .message {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  color: var(--text-secondary, #444);
 }
 
-.orderNumber {
-  display: inline-block;
-  background: #f5f5f5;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  margin: 1rem 0 2rem;
+.orderDetails {
+  font-size: 1rem;
+  color: var(--foreground);
+  margin-bottom: 1.2rem;
 }
 
-.homeButton {
+.nextSteps {
+  margin: 1.2rem 0 2.2rem 0;
+  width: 100%;
+}
+.nextSteps h2 {
+  font-size: 1.1rem;
+  font-family: var(--font-syncopate);
+  color: #181818;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+}
+.nextSteps ul {
+  list-style: disc inside;
+  padding: 0 0 0 1.3em;
+  margin: 0;
+  color: var(--foreground);
+}
+.nextSteps li {
+  margin-bottom: 0.4em;
+  font-size: 0.98rem;
+}
+
+.returnButton {
   display: inline-flex;
   align-items: center;
-  background: #000;
-  color: white;
-  padding: 1rem 2rem;
-  text-decoration: none;
+  background: #181818;
+  color: #fff;
+  padding: 0.85em 2.6em;
+  border-radius: 2em;
+  font-family: var(--font-inter);
+  font-size: 1.08rem;
   font-weight: 600;
-  transition: all 0.2s;
-  margin-top: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  transition: background 0.18s, color 0.18s;
+  margin-top: 1.5rem;
+  box-shadow: none;
 }
-
-.homeButton:hover {
-  background: #ff6b00;
-}
-
-.infoBox {
-  background: #f9f9f9;
-  padding: 2rem;
-  margin: 3rem 0;
-  text-align: left;
-}
-
-.infoTitle {
-  font-family: var(--font-syncopate);
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.infoText {
-  margin-bottom: 1rem;
-  color: #666;
+.returnButton:hover, .returnButton:focus {
+  background: var(--accent, #ff6b00);
+  color: #fff;
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 100px 1rem 2rem;
+  .successCard {
+    padding: 2.2rem 1rem 1.5rem 1rem;
+    max-width: 98vw;
   }
-  
   .title {
-    font-size: 1.75rem;
-  }
-  
-  .checkmark {
-    width: 70px;
-    height: 70px;
+    font-size: 1.2rem;
   }
 }

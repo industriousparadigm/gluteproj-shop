@@ -52,10 +52,20 @@ export default function HomePage() {
     setSelectedGender(gender)
   }
 
+  // Clean implementation of the shop function that both scrolls and toggles gender
+  const handleShopGender = (gender: 'women' | 'men') => {
+    setSelectedGender(gender)
+    // Smooth scroll to product grid
+    const section = document.getElementById('shop-section')
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   const BrandStory = () => (
     <section className={styles.brandStory}>
       <div className={styles.brandContent}>
-        <h2>Toe body achieves what the mind believes</h2>
+        <h2>The body achieves what the mind believes</h2>
         <p>
           At Glute Project, we believe that greatness starts in the mind. Every rep, every stride, every challenge you conquer begins with a single thought: belief in yourself. Our mission is to empower you to push past your limits, embrace the journey, and celebrate the strength that comes from within. Whether you&apos;re chasing a new PR or simply striving to feel your best, remember—the body will always follow where the mind leads. Welcome to a community where ambition meets action, and every day is an opportunity to become your strongest self.
         </p>
@@ -65,7 +75,7 @@ export default function HomePage() {
 
   return (
     <main className={styles.main}>
-      <Hero />
+      <Hero onShopGender={handleShopGender} />
       
       <section id="shop-section" className={styles.featuredSection}>
         <div className={styles.collections}>

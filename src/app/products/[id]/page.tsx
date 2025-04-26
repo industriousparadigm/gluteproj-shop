@@ -178,47 +178,32 @@ export default function ProductPage() {
           <h1 className={styles.title}>{product.name}</h1>
           <div className={styles.price}>€{product.price.toFixed(2)}</div>
 
-          {/* Color variants selector */}
-          {product.variants && product.variants.length > 0 && (
-            <div className={styles.colorVariants}>
-              <div className={styles.variantsLabel}>
-                Available Colors:
-              </div>
-              <div className={styles.variantSwatches}>
-                {/* Default color swatch */}
-                <button 
-                  className={`${styles.variantSwatch} ${!selectedVariant ? styles.variantSwatchActive : ''}`}
-                  style={{ backgroundColor: getColorDisplay(product.color) }}
-                  onClick={() => setSelectedVariant(null)}
-                  aria-label={`Select ${product.color} color`}
-                  title={product.color}
-                />
-                
-                {/* Variant color swatches */}
-                {product.variants.map((variant) => (
-                  <button
-                    key={variant.slug}
-                    className={`${styles.variantSwatch} ${selectedVariant?.color === variant.color ? styles.variantSwatchActive : ''}`}
-                    style={{ backgroundColor: getColorDisplay(variant.color) }}
-                    onClick={() => handleVariantChange(variant)}
-                    aria-label={`Select ${variant.color} color`}
-                    title={variant.color}
-                  />
-                ))}
-              </div>
+          {/* Always show color variants selector, even if only one color */}
+          <div className={styles.colorVariants}>
+            <div className={styles.variantsLabel}>
+              Available Colors:
             </div>
-          )}
-
-          {/* Current selected color display */}
-          <div className={styles.color}>
-            Color:{' '}
-            <span
-              className={styles.colorSwatch}
-              style={{ 
-                backgroundColor: getColorDisplay(selectedVariant?.color || product.color || '') 
-              }}
-            ></span>
-            <span className={styles.colorName}>{selectedVariant?.color || product.color}</span>
+            <div className={styles.variantSwatches}>
+              {/* Default color swatch (for single-color products or default variant) */}
+              <button 
+                className={`${styles.variantSwatch} ${!selectedVariant ? styles.variantSwatchActive : ''}`}
+                style={{ backgroundColor: getColorDisplay(product.color) }}
+                onClick={() => setSelectedVariant(null)}
+                aria-label={`Select ${product.color} color`}
+                title={product.color}
+              />
+              {/* Variant color swatches (if any) */}
+              {product.variants?.map((variant) => (
+                <button
+                  key={variant.slug}
+                  className={`${styles.variantSwatch} ${selectedVariant?.color === variant.color ? styles.variantSwatchActive : ''}`}
+                  style={{ backgroundColor: getColorDisplay(variant.color) }}
+                  onClick={() => handleVariantChange(variant)}
+                  aria-label={`Select ${variant.color} color`}
+                  title={variant.color}
+                />
+              ))}
+            </div>
           </div>
 
           <p className={styles.description}>

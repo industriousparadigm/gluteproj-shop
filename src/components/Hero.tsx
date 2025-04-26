@@ -1,13 +1,16 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import styles from './Hero.module.css'
 
 // Only use a single hero image
 const heroImage = '/hero-wolv.webp'
 
-export default function Hero() {
+export default function Hero({ onShopGender }: { onShopGender: (gender: 'women' | 'men') => void }) {
+  const handleShop = (gender: 'women' | 'men', e: React.MouseEvent) => {
+    e.preventDefault()
+    onShopGender(gender)
+  }
   return (
     <section className={styles.hero}>
       <Image
@@ -18,12 +21,12 @@ export default function Hero() {
         className={styles.image}
       />
       <div className={styles.overlayCtas}>
-        <Link href="/products/women" className={styles.ctaButton}>
+        <a href="#shop-section" className={styles.ctaButton} onClick={e => handleShop('women', e)}>
           Shop Women
-        </Link>
-        <Link href="/products/men" className={styles.ctaButton}>
+        </a>
+        <a href="#shop-section" className={styles.ctaButton} onClick={e => handleShop('men', e)}>
           Shop Men
-        </Link>
+        </a>
       </div>
     </section>
   )
