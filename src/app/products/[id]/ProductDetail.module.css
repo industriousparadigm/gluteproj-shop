@@ -420,7 +420,8 @@ html.dark-mode .collapsibleContent {
   animation: fadeIn 0.19s ease;
 }
 
-:root,
+/* :root and html.dark-mode selectors removed for CSS Modules compatibility. Use only local classes. */
+
 .variables {
   --card-bg: #fff;
   --border: #ececec;
@@ -432,7 +433,6 @@ html.dark-mode .collapsibleContent {
   --selected-fg: #181818;
 }
 
-html.dark-mode,
 html.dark-mode .variables {
   --card-bg: #232323;
   --border: #292929;
