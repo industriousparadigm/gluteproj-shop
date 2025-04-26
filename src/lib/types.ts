@@ -1,3 +1,5 @@
+import { PortableTextBlock } from "@portabletext/types"
+
 export type Variant = {
     color: string
     images: string[]
@@ -8,6 +10,8 @@ export type Product = {
     id: string
     name: string
     slug: string
+    features: PortableTextBlock[]
+    materialAndCare: PortableTextBlock[]
     gender: 'women' | 'men' | 'unisex'
     sizes: string[]
     price: number
@@ -34,6 +38,8 @@ export type SanityProduct = {
     name: string
     slug: string // slug.current is projected into slug in GROQ (should this be optional?)
     description: string
+    features: PortableTextBlock[]
+    materialAndCare: PortableTextBlock[]
     gender: 'women' | 'men' | 'unisex'
     sizes: Array<'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'> | null
     price: number         // base price

@@ -3,10 +3,11 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Heart, CheckCircle } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import styles from './ProductDetail.module.css'
 import { Product, Variant } from '@/lib/types'
 import { fetchProductBySlug } from '@/lib/sanity'
+import CollapsibleSections from './CollapsibleSections'
 
 interface CartItem {
   id: string
@@ -175,13 +176,17 @@ export default function ProductPage() {
         </div>
 
         <div className={styles.details}>
-          <h1 className={styles.title}>{product.name}</h1>
-          <div className={styles.price}>€{product.price.toFixed(2)}</div>
+          {/* Streamlined title/price with divider */}
+          <div className={styles.headerColumn}>
+            <h1 className={styles.title}>{product.name}</h1>
+            <span className={styles.price}>€{product.price.toFixed(2)}</span>
+          </div>
+          <div className={styles.divider} />
 
           {/* Always show color variants selector, even if only one color */}
           <div className={styles.colorVariants}>
             <div className={styles.variantsLabel}>
-              Available Colors:
+              Options
             </div>
             <div className={styles.variantSwatches}>
               {/* Default color swatch (for single-color products or default variant) */}
@@ -206,9 +211,26 @@ export default function ProductPage() {
             </div>
           </div>
 
+          {/* Size selector */}
+          <div className={styles.sizes}>
+            <div className={styles.sizesLabel}>Size</div>
+            <div className={styles.sizeOptions}>
+              {['XS', 'S', 'M', 'L', 'XL'].map(size => (
+                <button
+                  key={size}
+                  className={styles.sizeButton}
+                  // TODO: Add selection logic
+                  type="button"
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <p className={styles.description}>
             {product.description ||
-              'This premium quality product is designed for maximum performance and comfort. Made with high-quality, breathable materials that move with your body, it&apos;s perfect for intense workouts or casual wear. The sleek design offers both style and functionality, making it an essential addition to your athletic wardrobe.'}
+              'This premium quality product is designed for maximum performance and comfort. Made with high-quality, breathable materials that move with your body, it\'s perfect for intense workouts or casual wear. The sleek design offers both style and functionality, making it an essential addition to your athletic wardrobe.'}
           </p>
 
           <div className={styles.buttons}>
@@ -219,10 +241,13 @@ export default function ProductPage() {
               <Heart size={20} />
             </button>
           </div>
+
+          <CollapsibleSections />
         </div>
       </div>
 
-      <div className={styles.productFeatures}>
+      {/* REMOVE PRODUCT FEATURES SECTION */}
+      {/* <div className={styles.productFeatures}>
         <h2 className={styles.featureTitle}>Product Features</h2>
         <ul className={styles.featureList}>
           <li className={styles.featureItem}>
@@ -250,7 +275,7 @@ export default function ProductPage() {
             Machine washable
           </li>
         </ul>
-      </div>
+      </div> */}
 
       <div className={styles.relatedProducts}>
         <h2 className={styles.relatedTitle}>You May Also Like</h2>

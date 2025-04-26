@@ -35,6 +35,12 @@
   .title, .nextSteps h2 {
     color: #fff;
   }
+  .message {
+    color: #ccc;
+  }
+  .orderDetails {
+    color: #fff;
+  }
 }
 
 .iconContainer {

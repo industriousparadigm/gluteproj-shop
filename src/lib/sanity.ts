@@ -22,6 +22,8 @@ export async function fetchProducts(): Promise<Product[]> {
     color,
     category,
     description,
+    features,
+    materialAndCare,
     "images": images[]{ asset->{ url, metadata{ dimensions } } },
     "variants": variants[]{
       color,
@@ -50,6 +52,8 @@ export async function fetchProducts(): Promise<Product[]> {
         color: p.color,
         category: p.category,
         description: p.description,
+        features:        p.features        ?? [],
+        materialAndCare: p.materialAndCare ?? [],
         images:   (p.images   ?? []).map(i => i.asset?.url),
         variants: (p.variants ?? []).map(v => ({
           color:  v.color,
@@ -80,6 +84,8 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
     color,
     category,
     description,
+    features,
+    materialAndCare,
     "images": images[]{ asset->{ url, metadata{ dimensions } } },
     "variants": variants[]{
       color,
@@ -107,6 +113,8 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
       color: product.color,
       category: product.category,
       description: product.description,
+      features: product.features,
+      materialAndCare: product.materialAndCare,
       images: (product.images || [])
         .map((img) => img.asset?.url)
         .filter((url): url is string => Boolean(url)),
