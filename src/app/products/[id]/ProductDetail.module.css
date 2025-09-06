@@ -420,6 +420,20 @@ html.dark-mode .collapsibleContent {
   animation: fadeIn 0.19s ease;
 }
 
+.collapsibleContent ul,
+.collapsibleContent ol {
+  margin-left: 0;
+  padding-left: 1.5rem;
+}
+
+.collapsibleContent li {
+  margin-bottom: 0.5rem;
+}
+
+.collapsibleContent p {
+  margin-left: 0;
+}
+
 /* :root and html.dark-mode selectors removed for CSS Modules compatibility. Use only local classes. */
 
 .variables {
